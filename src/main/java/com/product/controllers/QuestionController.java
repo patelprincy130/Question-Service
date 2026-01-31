@@ -3,6 +3,7 @@ package com.product.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class QuestionController {
 	
 	@Autowired
 	QuestionService questionService;
+	
+	@Autowired
+	Environment environment;
 
 	@GetMapping("/allQuestions")
 	@ResponseBody
@@ -68,6 +72,7 @@ public class QuestionController {
 	@PostMapping("/getQuestionById")
 	@ResponseBody
 	public ResponseEntity<List<WrapperQuestion>> getQuestionsById(@RequestBody List<Integer> ids){ //questionIds
+		System.out.println(environment.getProperty("local.server.port")); //load balancing-automatically done by feignClient
 		return questionService.getQuestionsById(ids);
 	}
 	
